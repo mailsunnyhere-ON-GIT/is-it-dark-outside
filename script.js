@@ -32,8 +32,8 @@ function checkBrightness(sunsetTime) {
   const currentHours = currentTime.getHours();
   const sunsetHours = sunset.getHours();
 
-  if (currentHours >= sunsetHours) {
-    document.getElementById("result").innerHTML = "No";
+  if (currentHours < sunsetHours) {
+    document.getElementById("result").innerHTML = "no";
   } else {
     document.getElementById("result").innerHTML = "Yes";
   }
