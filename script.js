@@ -1,11 +1,13 @@
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(showPosition);
+  navigator.geolocation.getCurrentPosition(showPosition)
+    .catch(error => {
+      console.error('Error getting geolocation:', error);
+      document.getElementById("location").innerHTML = "Error getting geolocation.";
+    });
 } else {
   document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
 }
 
-
- 
 function showPosition(position) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
@@ -20,10 +22,17 @@ function showPosition(position) {
         .then(sunsetTime => {
           console.log(`Sunset time: ${sunsetTime}`);
           checkBrightness(sunsetTime);
+        })
+        .catch(error => {
+          console.error('Error getting sunset time:', error);
+          document.getElementById("result").innerHTML = "Error getting sunset time.";
         });
+    })
+    .catch(error => {
+      console.error('Error fetching reverse geocode data:', error);
+      document.getElementById("location").innerHTML = "Error fetching location data.";
     });
 }
-
 
 function checkBrightness(sunsetTime) {
   const currentTime = new Date();
@@ -53,7 +62,7 @@ setInterval(updateTime, 1000);
 const openWeatherMapApiKey = '9f9ebc3a161019ad048036991286e4b9';
 
 function getSunsetTime(country) {
-  return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${country}&appid=9f9ebc3a161019ad048036991286e4b9`)
+  return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${country}&appid=${openWeatherMapApiKey}`)
     .then(response => response.json())
     .then(data => {
       const sunsetTimestamp = data.sys.sunset;
