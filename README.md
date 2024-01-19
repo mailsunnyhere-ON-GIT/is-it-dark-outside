@@ -1,2 +1,2 @@
 # is-it-dark-outside
-project-simple
+Simple project to learn how to use APis
